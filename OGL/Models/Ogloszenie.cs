@@ -22,7 +22,7 @@ namespace OGL.Models
         [Display(Name ="Data dodania:")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString ="{0:yyyy-MM-dd}", ApplyFormatInEditMode =true)]
-        public System.DateTime DataDodania { get; set }
+        public System.DateTime DataDodania { get; set; }
 
         public string UzytkownikId { get; set; }
 

@@ -29,7 +29,7 @@ namespace OGL.Models
 
         [Display(Name ="Tytuł w Google:")]
         [MaxLength(72)]
-        public string MetaTytul { get; set }
+        public string MetaTytul { get; set; }
 
         [Display(Name ="Opis strony w Google:")]
         [MaxLength(160)]
