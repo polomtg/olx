@@ -33,18 +33,18 @@ namespace OGL
     }
 
     // Skonfiguruj menedżera użytkowników aplikacji używanego w tej aplikacji. Interfejs UserManager jest zdefiniowany w produkcie ASP.NET Identity i jest używany przez aplikację.
-    public class ApplicationUserManager : UserManager<ApplicationUser>
+    public class UzytkownikManager : UserManager<Uzytkownik>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store)
+        public UzytkownikManager(IUserStore<Uzytkownik> store)
             : base(store)
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static UzytkownikManager Create(IdentityFactoryOptions<UzytkownikManager> options, IOwinContext context) 
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+            var manager = new UzytkownikManager(new UserStore<Uzytkownik>(context.Get<ApplicationDbContext>()));
             // Konfiguruj logikę weryfikacji nazw użytkowników
-            manager.UserValidator = new UserValidator<ApplicationUser>(manager)
+            manager.UserValidator = new UserValidator<Uzytkownik>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
@@ -67,11 +67,11 @@ namespace OGL
 
             // Zarejestruj dostawców uwierzytelniania dwuetapowego. W przypadku tej aplikacji kod weryfikujący użytkownika jest uzyskiwany przez telefon i pocztą e-mail
             // Możesz zapisać własnego dostawcę i dołączyć go tutaj.
-            manager.RegisterTwoFactorProvider("Kod — telefon", new PhoneNumberTokenProvider<ApplicationUser>
+            manager.RegisterTwoFactorProvider("Kod — telefon", new PhoneNumberTokenProvider<Uzytkownik>
             {
                 MessageFormat = "Twój kod zabezpieczający: {0}"
             });
-            manager.RegisterTwoFactorProvider("Kod — e-mail", new EmailTokenProvider<ApplicationUser>
+            manager.RegisterTwoFactorProvider("Kod — e-mail", new EmailTokenProvider<Uzytkownik>
             {
                 Subject = "Kod zabezpieczeń",
                 BodyFormat = "Twój kod zabezpieczający: {0}"
@@ -82,28 +82,28 @@ namespace OGL
             if (dataProtectionProvider != null)
             {
                 manager.UserTokenProvider = 
-                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                    new DataProtectorTokenProvider<Uzytkownik>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
         }
     }
 
     // Skonfiguruj menedżera logowania aplikacji używanego w tej aplikacji.
-    public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
+    public class ApplicationSignInManager : SignInManager<Uzytkownik, string>
     {
-        public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
+        public ApplicationSignInManager(UzytkownikManager userManager, IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager)
         {
         }
 
-        public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
+        public override Task<ClaimsIdentity> CreateUserIdentityAsync(Uzytkownik user)
         {
-            return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
+            return user.GenerateUserIdentityAsync((UzytkownikManager)UserManager);
         }
 
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
         {
-            return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
+            return new ApplicationSignInManager(context.GetUserManager<UzytkownikManager>(), context.Authentication);
         }
     }
 }
