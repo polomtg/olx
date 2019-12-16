@@ -9,7 +9,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace OGL.Models
+namespace Repozytorium.Models
 {
     public class Uzytkownik:IdentityUser
     {

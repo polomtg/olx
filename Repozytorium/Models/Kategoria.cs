@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace OGL.Models
+namespace Repozytorium.Models
 {
     public class Kategoria
     {
