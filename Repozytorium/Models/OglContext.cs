@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace OGL.Models
+namespace Repozytorium.Models
 {
     public class OglContext : IdentityDbContext
     {
