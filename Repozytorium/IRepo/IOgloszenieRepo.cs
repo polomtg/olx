@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repozytorium.IRepo
 {
-    interface IOgloszenieRepo
+    public interface IOgloszenieRepo
     {
         IQueryable<Ogloszenie> PobierzOgloszenia();
     }
