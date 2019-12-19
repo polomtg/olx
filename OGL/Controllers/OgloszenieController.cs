@@ -7,24 +7,33 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Repozytorium.IRepo;
 using Repozytorium.Models;
+using Repozytorium.Repo;
 
 namespace OGL.Controllers
 {
     public class OgloszenieController : Controller
     {
-        private OglContext db = new OglContext();
+        //Wstrzykiwanie repozytorium
+        //Poprzez konstruktor i prywatne pole _repo
+        private readonly IOgloszenieRepo _repo;
+        public OgloszenieController(IOgloszenieRepo repo)
+        {
+            _repo = repo;
+        }
 
         // GET: Ogloszenie
         public ActionResult Index()
         {
-            db.Database.Log = message => Trace.WriteLine(message);
-            //Optymalizacja zapytania SQL poprzez usuniecie Include (joinw w sql)
-            //var ogloszenia = db.Ogloszenia.Include(o => o.Uzytkownik);
-            var ogloszenia = db.Ogloszenia.AsNoTracking();
-            return View(ogloszenia.ToList());
+            var ogloszenia = _repo.PobierzOgloszenia();
+            //Usuniecie .ToList() powoduje pobranie danych kiedy sa potrzebne
+            //a nie kiedy jest wywoływane .ToList()
+            //return View(ogloszenia.ToList());
+            return View(ogloszenia);
         }
 
+#if false
         // GET: Ogloszenie/Details/5
         public ActionResult Details(int? id)
         {
@@ -131,6 +140,7 @@ namespace OGL.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
+        } 
+#endif
     }
 }
