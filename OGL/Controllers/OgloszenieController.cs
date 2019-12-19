@@ -23,12 +23,10 @@ namespace OGL.Controllers
             _repo = repo;
         }
 
-        OgloszenieRepo repo = new OgloszenieRepo();
-
         // GET: Ogloszenie
         public ActionResult Index()
         {
-            var ogloszenia = repo.PobierzOgloszenia();
+            var ogloszenia = _repo.PobierzOgloszenia();
             //Usuniecie .ToList() powoduje pobranie danych kiedy sa potrzebne
             //a nie kiedy jest wywoływane .ToList()
             //return View(ogloszenia.ToList());
