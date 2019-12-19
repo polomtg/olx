@@ -10,14 +10,20 @@ namespace Repozytorium.Repo
 {
     public class OgloszenieRepo: IOgloszenieRepo
     {
+        private readonly IOglContext _db;
+        public OgloszenieRepo(IOglContext db)
+        {
+            _db = db;
+        }
+
         private OglContext db = new OglContext();
 
         public IQueryable<Ogloszenie> PobierzOgloszenia()
         {
-            db.Database.Log = message => Trace.WriteLine(message);
+            _db.Database.Log = message => Trace.WriteLine(message);
             //Optymalizacja zapytania SQL poprzez usuniecie Include (joinw w sql)
             //var ogloszenia = db.Ogloszenia.Include(o => o.Uzytkownik);
-            return db.Ogloszenia.AsNoTracking();
+            return _db.Ogloszenia.AsNoTracking();
         }
     }
 }

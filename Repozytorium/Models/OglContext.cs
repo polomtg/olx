@@ -4,10 +4,11 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Repozytorium.IRepo;
 
 namespace Repozytorium.Models
 {
-    public class OglContext : IdentityDbContext
+    public class OglContext : IdentityDbContext, IOglContext
     {
         public OglContext()
             : base("DefaultConnection")

@@ -1,5 +1,6 @@
 using OGL.Controllers;
 using Repozytorium.IRepo;
+using Repozytorium.Models;
 using Repozytorium.Repo;
 using System;
 
@@ -50,6 +51,7 @@ namespace OGL
             container.RegisterType<AccountController>(new InjectionConstructor());
             container.RegisterType<ManageController>(new InjectionConstructor());
             container.RegisterType<IOgloszenieRepo, OgloszenieRepo>(new PerRequestLifetimeManager());
+            container.RegisterType<IOglContext, OglContext>(new PerRequestLifetimeManager());
         }
     }
 }
