@@ -33,7 +33,6 @@ namespace OGL.Controllers
             return View(ogloszenia);
         }
 
-#if false
         // GET: Ogloszenie/Details/5
         public ActionResult Details(int? id)
         {
@@ -41,13 +40,15 @@ namespace OGL.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ogloszenie ogloszenie = db.Ogloszenia.Find(id);
+            Ogloszenie ogloszenie = _repo.GetOgloszenieById((int)id);
             if (ogloszenie == null)
             {
                 return HttpNotFound();
             }
             return View(ogloszenie);
         }
+
+#if false
 
         // GET: Ogloszenie/Create
         public ActionResult Create()
