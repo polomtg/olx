@@ -108,20 +108,7 @@ namespace OGL.Controllers
             return View(ogloszenie);
         }
 
-        // GET: Ogloszenie/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Ogloszenie ogloszenie = db.Ogloszenia.Find(id);
-            if (ogloszenie == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ogloszenie);
-        }
+        
 
         // POST: Ogloszenie/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -143,5 +130,21 @@ namespace OGL.Controllers
             base.Dispose(disposing);
         } 
 #endif
+
+        // GET: Ogloszenie/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Ogloszenie ogloszenie = _repo.GetOgloszenieById((int)id);
+            if (ogloszenie == null)
+            {
+                return HttpNotFound();
+            }
+            return View(ogloszenie);
+        }
+
     }
 }
