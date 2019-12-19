@@ -104,6 +104,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRepo\IOgloszenieRepo.cs" />
     <Compile Include="Migrations\201912171007546_startowa.cs" />
     <Compile Include="Migrations\201912171007546_startowa.designer.cs">
       <DependentUpon>201912171007546_startowa.cs</DependentUpon>
@@ -139,6 +140,7 @@
       <DependentUpon>201912190850250_1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

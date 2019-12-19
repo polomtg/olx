@@ -1,4 +1,5 @@
-﻿using Repozytorium.Models;
+﻿using Repozytorium.IRepo;
+using Repozytorium.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,7 +8,7 @@ using System.Web;
 
 namespace Repozytorium.Repo
 {
-    public class OgloszenieRepo
+    public class OgloszenieRepo: IOgloszenieRepo
     {
         private OglContext db = new OglContext();
 
