@@ -1,7 +1,10 @@
 ﻿@model Repozytorium.Models.Ogloszenie
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Tytul = "Szczegły ogłoszenia" + Model.Id;
+    ViewBag.Opis = "Szczegóły ogłoszenia" + Model.Id + "Opis do Google";
+    ViewBag.SlowaKluczowe = "Ogłoszenie." + Model.Id + ".szczegóły";
+
 }
 
 <h2>Details</h2>
@@ -11,11 +14,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Uzytkownik.Email)
+            Id autora:
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Uzytkownik.Email)
+            @Html.DisplayFor(model => model.UzytkownikId)
         </dd>
 
         <dt>
@@ -45,6 +48,7 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edytuj", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" }) 
+    <br />
+    @Html.ActionLink("Wróć", "Index", null, new { @class = "btn btn-warning" })
 </p>
