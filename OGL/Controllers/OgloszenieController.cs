@@ -19,7 +19,9 @@ namespace OGL.Controllers
         public ActionResult Index()
         {
             db.Database.Log = message => Trace.WriteLine(message);
-            var ogloszenia = db.Ogloszenia.Include(o => o.Uzytkownik);
+            //Optymalizacja zapytania SQL poprzez usuniecie Include (joinw w sql)
+            //var ogloszenia = db.Ogloszenia.Include(o => o.Uzytkownik);
+            var ogloszenia = db.Ogloszenia.AsNoTracking();
             return View(ogloszenia.ToList());
         }
 
