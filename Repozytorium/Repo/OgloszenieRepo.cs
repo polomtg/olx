@@ -34,6 +34,7 @@ namespace Repozytorium.Repo
 
         public bool UsunOgloszenie(int id)
         {
+            UsunPowiazanieOgloszenieKategoria(id);
             Ogloszenie ogloszenie = _db.Ogloszenia.Find(id);
             _db.Ogloszenia.Remove(ogloszenie);
             try
@@ -44,6 +45,15 @@ namespace Repozytorium.Repo
             catch (Exception ex)
             {
                 return false;
+            }
+        }
+
+        private void UsunPowiazanieOgloszenieKategoria(int idOgloszenia)
+        {
+            var list = _db.Ogloszenie_Kategoria.Where(o => o.OgloszenieId == idOgloszenia);
+            foreach (var el in list)
+            {
+                _db.Ogloszenie_Kategoria.Remove(el);
             }
         }
     }
