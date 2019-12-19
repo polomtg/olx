@@ -18,11 +18,19 @@ namespace OGL.Controllers
         // GET: Ogloszenie
         public ActionResult Index()
         {
+            var ogloszenia = PobierzOgloszenia();
+            //Usuniecie .ToList() powoduje pobranie danych kiedy sa potrzebne
+            //a nie kiedy jest wywoływane .ToList()
+            //return View(ogloszenia.ToList());
+            return View(ogloszenia);
+        }
+
+        public IQueryable<Ogloszenie> PobierzOgloszenia()
+        {
             db.Database.Log = message => Trace.WriteLine(message);
             //Optymalizacja zapytania SQL poprzez usuniecie Include (joinw w sql)
             //var ogloszenia = db.Ogloszenia.Include(o => o.Uzytkownik);
-            var ogloszenia = db.Ogloszenia.AsNoTracking();
-            return View(ogloszenia.ToList());
+            return db.Ogloszenia.AsNoTracking();
         }
 
         // GET: Ogloszenie/Details/5
