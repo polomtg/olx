@@ -14,6 +14,14 @@ namespace OGL.Controllers
 {
     public class OgloszenieController : Controller
     {
+        //Wstrzykiwanie repozytorium
+        //Poprzez konstruktor i prywatne pole _repo
+        private readonly IOgloszenieRepo _repo;
+        public OgloszenieController(IOgloszenieRepo repo)
+        {
+            _repo = repo;
+        }
+
         OgloszenieRepo repo = new OgloszenieRepo();
 
         // GET: Ogloszenie
