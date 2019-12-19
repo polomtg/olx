@@ -110,16 +110,7 @@ namespace OGL.Controllers
 
         
 
-        // POST: Ogloszenie/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Ogloszenie ogloszenie = db.Ogloszenia.Find(id);
-            db.Ogloszenia.Remove(ogloszenie);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        
 
         protected override void Dispose(bool disposing)
         {
@@ -144,6 +135,21 @@ namespace OGL.Controllers
                 return HttpNotFound();
             }
             return View(ogloszenie);
+        }
+
+        // POST: Ogloszenie/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (_repo.UsunOgloszenie(id))
+                {
+                    break;
+                }
+            }
+            return RedirectToAction("Index");
         }
 
     }
