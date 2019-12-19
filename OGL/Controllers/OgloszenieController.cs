@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -17,6 +18,7 @@ namespace OGL.Controllers
         // GET: Ogloszenie
         public ActionResult Index()
         {
+            db.Database.Log = message => Trace.WriteLine(message);
             var ogloszenia = db.Ogloszenia.Include(o => o.Uzytkownik);
             return View(ogloszenia.ToList());
         }
