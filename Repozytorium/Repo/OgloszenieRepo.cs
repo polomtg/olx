@@ -32,20 +32,25 @@ namespace Repozytorium.Repo
             return ogloszenie;
         }
 
-        public bool UsunOgloszenie(int id)
+        public void UsunOgloszenie(int id)
         {
             UsunPowiazanieOgloszenieKategoria(id);
             Ogloszenie ogloszenie = _db.Ogloszenia.Find(id);
             _db.Ogloszenia.Remove(ogloszenie);
-            try
-            {
-                _db.SaveChanges();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            //try
+            //{
+            //    _db.SaveChanges();
+            //    return true;
+            //}
+            //catch (Exception ex)
+            //{
+            //    return false;
+            //}
+        }
+
+        public void SaveChanges()
+        {
+            _db.SaveChanges();
         }
 
         private void UsunPowiazanieOgloszenieKategoria(int idOgloszenia)
