@@ -84,7 +84,6 @@ namespace OGL.Controllers
             return View(ogloszenie);
         }
 
-#if false
         // GET: Ogloszenie/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -92,12 +91,11 @@ namespace OGL.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ogloszenie ogloszenie = db.Ogloszenia.Find(id);
+            Ogloszenie ogloszenie = _repo.GetOgloszenieById((int)id);
             if (ogloszenie == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.UzytkownikId = new SelectList(db.Users, "Id", "Email", ogloszenie.UzytkownikId);
             return View(ogloszenie);
         }
 
@@ -110,27 +108,30 @@ namespace OGL.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(ogloszenie).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    ogloszenie.UzytkownikId="asfdasdf";
+                    _repo.Aktualizuj(ogloszenie);
+                    _repo.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    ViewBag.Blad = true;
+                    return View(ogloszenie);
+                }
             }
-            ViewBag.UzytkownikId = new SelectList(db.Users, "Id", "Email", ogloszenie.UzytkownikId);
+            ViewBag.Blad = false;
             return View(ogloszenie);
-        }
+        }        
 
-        
-
-        
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        } 
-#endif
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //} s
 
         // GET: Ogloszenie/Delete/5
         public ActionResult Delete(int? id, bool? blad)

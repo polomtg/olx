@@ -14,5 +14,6 @@ namespace Repozytorium.IRepo
         void UsunOgloszenie(int id);
         void SaveChanges();
         void Dodaj(Ogloszenie ogloszenie);
+        void Aktualizuj(Ogloszenie ogloszenie);
     }
 }
