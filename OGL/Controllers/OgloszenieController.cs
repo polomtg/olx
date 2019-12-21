@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using Repozytorium.IRepo;
 using Repozytorium.Models;
 using Repozytorium.Repo;
@@ -48,33 +49,42 @@ namespace OGL.Controllers
             return View(ogloszenie);
         }
 
-#if false
+
 
         // GET: Ogloszenie/Create
+        [Authorize]
         public ActionResult Create()
         {
-            ViewBag.UzytkownikId = new SelectList(db.Users, "Id", "Email");
             return View();
         }
 
         // POST: Ogloszenie/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Tresc,Tytul,DataDodania,UzytkownikId")] Ogloszenie ogloszenie)
+        public ActionResult Create([Bind(Include = "Tresc,Tytul")] Ogloszenie ogloszenie)
         {
             if (ModelState.IsValid)
             {
-                db.Ogloszenia.Add(ogloszenie);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                ogloszenie.UzytkownikId = User.Identity.GetUserId();
+                ogloszenie.DataDodania = DateTime.Now;
+                try
+                {
+                    _repo.Dodaj(ogloszenie);
+                    _repo.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception)
+                {
+                    return View(ogloszenie);
+                }
             }
-
-            ViewBag.UzytkownikId = new SelectList(db.Users, "Id", "Email", ogloszenie.UzytkownikId);
             return View(ogloszenie);
         }
 
+#if false
         // GET: Ogloszenie/Edit/5
         public ActionResult Edit(int? id)
         {

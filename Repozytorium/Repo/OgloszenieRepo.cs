@@ -61,5 +61,10 @@ namespace Repozytorium.Repo
                 _db.Ogloszenie_Kategoria.Remove(el);
             }
         }
+
+        public void Dodaj(Ogloszenie ogloszenie)
+        {
+            _db.Ogloszenia.Add(ogloszenie);
+        }
     }
 }
