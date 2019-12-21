@@ -123,7 +123,7 @@ namespace OGL.Controllers
 #endif
 
         // GET: Ogloszenie/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, bool? blad)
         {
             if (id == null)
             {
@@ -133,6 +133,10 @@ namespace OGL.Controllers
             if (ogloszenie == null)
             {
                 return HttpNotFound();
+            }
+            if (blad!=null)
+            {
+                ViewBag.Blad = true;
             }
             return View(ogloszenie);
         }
@@ -149,6 +153,7 @@ namespace OGL.Controllers
             }
             catch (Exception)
             {
+                return RedirectToAction("Delete", new { id = id, blad = true });
             }
             return RedirectToAction("Index");
         }
