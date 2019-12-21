@@ -59,8 +59,15 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Usuń" class="btn btn-danger" /> |
+            <input type="submit" value="Usuń" class="btn btn-danger confirmation" /> |
             @Html.ActionLink("Wróć", "Index", null, new { @class = "btn btn-warning" })
         </div>
     }
 </div>
+@section Scripts{
+    <script type="text/javascript">
+        $('.confirmation').on('click', function () {
+            return confirm('Czy na pewno chcesz usunąć?');
+        });
+    </script>
+    }
