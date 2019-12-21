@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using Repozytorium.IRepo;
 using Repozytorium.Models;
 using Repozytorium.Repo;
@@ -33,7 +34,6 @@ namespace OGL.Controllers
             return View(ogloszenia);
         }
 
-#if false
         // GET: Ogloszenie/Details/5
         public ActionResult Details(int? id)
         {
@@ -41,7 +41,7 @@ namespace OGL.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ogloszenie ogloszenie = db.Ogloszenia.Find(id);
+            Ogloszenie ogloszenie = _repo.GetOgloszenieById((int)id);
             if (ogloszenie == null)
             {
                 return HttpNotFound();
@@ -49,28 +49,38 @@ namespace OGL.Controllers
             return View(ogloszenie);
         }
 
+
+
         // GET: Ogloszenie/Create
+        [Authorize]
         public ActionResult Create()
         {
-            ViewBag.UzytkownikId = new SelectList(db.Users, "Id", "Email");
             return View();
         }
 
         // POST: Ogloszenie/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Tresc,Tytul,DataDodania,UzytkownikId")] Ogloszenie ogloszenie)
+        public ActionResult Create([Bind(Include = "Tresc,Tytul")] Ogloszenie ogloszenie)
         {
             if (ModelState.IsValid)
             {
-                db.Ogloszenia.Add(ogloszenie);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                ogloszenie.UzytkownikId = User.Identity.GetUserId();
+                ogloszenie.DataDodania = DateTime.Now;
+                try
+                {
+                    _repo.Dodaj(ogloszenie);
+                    _repo.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception)
+                {
+                    return View(ogloszenie);
+                }
             }
-
-            ViewBag.UzytkownikId = new SelectList(db.Users, "Id", "Email", ogloszenie.UzytkownikId);
             return View(ogloszenie);
         }
 
@@ -81,12 +91,11 @@ namespace OGL.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ogloszenie ogloszenie = db.Ogloszenia.Find(id);
+            Ogloszenie ogloszenie = _repo.GetOgloszenieById((int)id);
             if (ogloszenie == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.UzytkownikId = new SelectList(db.Users, "Id", "Email", ogloszenie.UzytkownikId);
             return View(ogloszenie);
         }
 
@@ -99,25 +108,46 @@ namespace OGL.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(ogloszenie).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    ogloszenie.UzytkownikId="asfdasdf";
+                    _repo.Aktualizuj(ogloszenie);
+                    _repo.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    ViewBag.Blad = true;
+                    return View(ogloszenie);
+                }
             }
-            ViewBag.UzytkownikId = new SelectList(db.Users, "Id", "Email", ogloszenie.UzytkownikId);
+            ViewBag.Blad = false;
             return View(ogloszenie);
-        }
+        }        
+
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //} s
 
         // GET: Ogloszenie/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, bool? blad)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ogloszenie ogloszenie = db.Ogloszenia.Find(id);
+            Ogloszenie ogloszenie = _repo.GetOgloszenieById((int)id);
             if (ogloszenie == null)
             {
                 return HttpNotFound();
+            }
+            if (blad!=null)
+            {
+                ViewBag.Blad = true;
             }
             return View(ogloszenie);
         }
@@ -127,20 +157,17 @@ namespace OGL.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Ogloszenie ogloszenie = db.Ogloszenia.Find(id);
-            db.Ogloszenia.Remove(ogloszenie);
-            db.SaveChanges();
+            _repo.UsunOgloszenie(id);
+            try
+            {
+                _repo.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Delete", new { id = id, blad = true });
+            }
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        } 
-#endif
     }
 }
