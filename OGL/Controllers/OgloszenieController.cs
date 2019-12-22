@@ -142,6 +142,7 @@ namespace OGL.Controllers
         //} s
 
         // GET: Ogloszenie/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id, bool? blad)
         {
             if (id == null)
@@ -152,6 +153,10 @@ namespace OGL.Controllers
             if (ogloszenie == null)
             {
                 return HttpNotFound();
+            }
+            else if (ogloszenie.UzytkownikId!=User.Identity.GetUserId() && !User.IsInRole("Admin"))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             if (blad != null)
             {
