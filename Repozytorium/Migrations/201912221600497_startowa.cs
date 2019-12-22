@@ -40,7 +40,8 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Tytul = c.String(maxLength: 500),
+                        Tresc = c.String(maxLength: 500),
+                        Tytul = c.String(maxLength: 72),
                         DataDodania = c.DateTime(nullable: false),
                         UzytkownikId = c.String(nullable: false, maxLength: 128),
                     })
@@ -66,6 +67,7 @@
                         UserName = c.String(nullable: false, maxLength: 256),
                         Imie = c.String(),
                         Nazwisko = c.String(),
+                        Wiek = c.Int(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)

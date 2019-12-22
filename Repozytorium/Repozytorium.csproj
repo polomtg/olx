@@ -106,13 +106,9 @@
   <ItemGroup>
     <Compile Include="IRepo\IOglContext.cs" />
     <Compile Include="IRepo\IOgloszenieRepo.cs" />
-    <Compile Include="Migrations\201912171007546_startowa.cs" />
-    <Compile Include="Migrations\201912171007546_startowa.designer.cs">
-      <DependentUpon>201912171007546_startowa.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912190850250_1.cs" />
-    <Compile Include="Migrations\201912190850250_1.designer.cs">
-      <DependentUpon>201912190850250_1.cs</DependentUpon>
+    <Compile Include="Migrations\201912221600497_startowa.cs" />
+    <Compile Include="Migrations\201912221600497_startowa.designer.cs">
+      <DependentUpon>201912221600497_startowa.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Kategoria.cs" />
@@ -134,14 +130,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201912171007546_startowa.resx">
-      <DependentUpon>201912171007546_startowa.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912190850250_1.resx">
-      <DependentUpon>201912190850250_1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201912221600497_startowa.resx">
+      <DependentUpon>201912221600497_startowa.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
