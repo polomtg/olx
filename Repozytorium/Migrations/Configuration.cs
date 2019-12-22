@@ -43,6 +43,13 @@
                 role.Name = "Admin";
                 roleManager.Create(role);
             }
+
+            if (!roleManager.RoleExists("Pracownik"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "Pracownik";
+                roleManager.Create(role);
+            }
         }
 
         private void SeedUsers(OglContext context)
@@ -54,6 +61,26 @@
                 var user = new Uzytkownik { UserName = "Admin", Wiek = 12 };
                 var adminresult = manager.Create(user, "12345678");
 
+                if (adminresult.Succeeded)
+                {
+                    manager.AddToRole(user.Id, "Admin");
+                }
+            }
+
+            if (!context.Users.Any(u=>u.UserName=="Marek"))
+            {
+                var user = new Uzytkownik { UserName = "marek@aspnetmvc.pl" };
+                var adminresult = manager.Create(user, "1234Abc.");
+                if (adminresult.Succeeded)
+                {
+                    manager.AddToRole(user.Id, "Pracownik");
+                }
+            }
+
+            if (!context.Users.Any(u=>u.UserName=="Prezes"))
+            {
+                var user = new Uzytkownik { UserName = "prezes@aspnetmvc.pl" };
+                var adminresult = manager.Create(user, "123Abc.");
                 if (adminresult.Succeeded)
                 {
                     manager.AddToRole(user.Id, "Admin");
