@@ -85,16 +85,23 @@ namespace OGL.Controllers
         }
 
         // GET: Ogloszenie/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Ogloszenie ogloszenie = _repo.GetOgloszenieById((int)id);
             if (ogloszenie == null)
             {
                 return HttpNotFound();
+            }
+            else if (ogloszenie.UzytkownikId != User.Identity.GetUserId()
+                && !User.IsInRole("Admin") || User.IsInRole("Pracownik"))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             return View(ogloszenie);
         }
@@ -103,6 +110,7 @@ namespace OGL.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Tresc,Tytul,DataDodania,UzytkownikId")] Ogloszenie ogloszenie)
         {
@@ -110,7 +118,7 @@ namespace OGL.Controllers
             {
                 try
                 {
-                    ogloszenie.UzytkownikId="asfdasdf";
+                    //ogloszenie.UzytkownikId="asfdasdf";
                     _repo.Aktualizuj(ogloszenie);
                     _repo.SaveChanges();
                 }
@@ -122,7 +130,7 @@ namespace OGL.Controllers
             }
             ViewBag.Blad = false;
             return View(ogloszenie);
-        }        
+        }
 
         //protected override void Dispose(bool disposing)
         //{
@@ -145,7 +153,7 @@ namespace OGL.Controllers
             {
                 return HttpNotFound();
             }
-            if (blad!=null)
+            if (blad != null)
             {
                 ViewBag.Blad = true;
             }
