@@ -169,5 +169,11 @@ namespace OGL.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Partial()
+        {
+            var ogloszenie = _repo.PobierzOgloszenia();
+            return PartialView("Index", ogloszenie);
+        }
+
     }
 }
