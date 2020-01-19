@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Tytul - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Ogłoszenia</title>
     <meta name="description" content="@ViewBag.Opis" />
     <meta name="keywords" content="@ViewBag.SlowaKluczowe" />
     @Styles.Render("~/Content/css")
@@ -12,17 +12,17 @@
 
 </head>
 <body>
-    <div class="navbar navbar-expand-md">
+    <div class="navbar navbar-expand-md navbar-light bg-light">
         <div class="container">
             <div class="navbar-header">
                 @Html.ActionLink("OGL", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Strona główna", "Index", "Home")</li>
+                    <li class="nav-item">@Html.ActionLink("Strona główna", "Index", "Home", new { @class = "nav-link" })</li>
                     
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                             Ogłoszenia <span class="caret"></span>                        
                         </a>
                         <ul class="dropdown-menu" role="menu">
@@ -31,8 +31,8 @@
                             {
                                 <li>@Html.ActionLink("Dodaj ogłoszenie", "Create","Ogloszenie")</li>
                             }
-                            <li class="dropdown-divider"></li>
-                            <li>@Html.ActionLink("Lista jako PartialView", "Partial", "Ogloszenie")</li>
+                            @*<li class="dropdown-divider"></li>
+                            <li>@Html.ActionLink("Lista jako PartialView", "Partial", "Ogloszenie")</li>*@
                         </ul>
                     </li>
                 </ul>
@@ -44,7 +44,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Moja aplikacja ASP.NET</p>
+            <p>&copy; @DateTime.Now.Year - Ogloszenia</p>
         </footer>
     </div>
 
